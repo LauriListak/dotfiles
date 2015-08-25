@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+dir=~/.dotfiles                    # dotfiles directory
+olddir=~/.dotfiles_old             # old dotfiles backup directory
+files="bashrc emacs.d"    # list of files/folders to symlink in homedir
+
+##########
+
+# create dotfiles_old in homedir
+echo -n "Creating $olddir for backup of any existing dotfiles in ~ ..."
+mkdir -p $olddir
+echo "done"
+
+# change to the dotfiles directory
+echo -n "Changing to the $dir directory ..."
+cd $dir
+echo "done"
+
+# move any existing dotfiles in homedir to dotfiles_old directory, then create symlinks from the homedir to any files in the ~/dotfiles directory specified in $files
+for file in $files; do
+    echo "Moving any existing dotfiles from ~ to $olddir"
+    mv ~/.$file $olddir
+    echo "Creating symlink to $file in home directory."
+    ln -s $dir/$file ~/.$file
+done
+
+echo "Moving existing fish configuration to $olddir"
+mv ~/.config/fish/config.fish $olddir
+echo "Creating symlink to fish configuration."
+ln -s $dir/config/fish/config.fish ~/.config/fish/config.fish
+
+echo "Installing Source Code Pro"
+FONT_NAME="SourceCodePro"
+URL="https://github.com/adobe-fonts/source-code-pro/archive/2.010R-ro/1.030R-it.tar.gz"
+
+mkdir /tmp/$FONT_NAME
+cd /tmp/$FONT_NAME
+wget $URL -O "`echo $FONT_NAME`.tar.gz"
+tar --extract --gzip --file ${FONT_NAME}.tar.gz
+sudo mkdir /usr/share/fonts/truetype/$FONT_NAME
+sudo cp -rf /tmp/$FONT_NAME/. /usr/share/fonts/truetype/$FONT_NAME/.
+fc-cache -f -v
