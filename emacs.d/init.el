@@ -116,3 +116,9 @@
 ;; for this to work under Windows 7
 ;; read more on: http://www.gnu.org/software/emacs/manual/html_node/emacs/Windows-HOME.html
 (setq org-agenda-files '("~/Google Drive/Org"))
+
+;; save backup and auto-save files to system's temp directory
+(setq backup-directory-alist
+      `((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms
+      `((".*" ,temporary-file-directory t)))
