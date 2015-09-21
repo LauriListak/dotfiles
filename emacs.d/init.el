@@ -77,6 +77,12 @@
 ;; Do not blink the cursor
 (blink-cursor-mode 0)
 
+;; Highlight the matching pairs of parentheses
+(show-paren-mode 1)
+
+;; Also turn on rainbow delimiters for all programming modes
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+
 ;; The only theme that has ever made sense
 (load-theme 'monokai t)
 
@@ -122,3 +128,6 @@
       `((".*" . ,temporary-file-directory)))
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
+
+;; Do not disable upcase-region command
+(put 'upcase-region 'disabled nil)
