@@ -31,6 +31,15 @@
     ;; Clojure REPL integration
     cider
 
+    ;; Auto-complete plugin for CIDER
+    ac-cider
+
+    ;; Autocompletion
+    auto-complete
+
+    ;; Popups for autocompletion
+    popup
+
     ;; Integration with GNU R
     ess
 
@@ -83,6 +92,47 @@
 ;; Also turn on rainbow delimiters for all programming modes
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 
+;; Show the argument list for the function in echo area
+;; for Clojure
+(add-hook 'clojure-mode-hook 'turn-on-eldoc-mode)
+
+;; Get more detailed stacktraces
+(setq cider-popup-stacktraces nil)
+(setq cider-popup-stacktraces-in-repl t)
+
+;; Force buffer to appear in the selected window
+(add-to-list 'same-window-buffer-names "<em>cider</em>")
+
+;; Fast autocomplete is useful, but has performance issues
+(require 'auto-complete-config)
+(setq ac-delay 0.0)
+(setq ac-quick-help-delay 0.5)
+(ac-config-default)
+
+;; Setup autocomplete to work both in the editor and REPL
+(require 'ac-cider)
+(add-hook 'cider-mode-hook 'ac-flyspell-workaround)
+(add-hook 'cider-mode-hook 'ac-cider-setup)
+(add-hook 'cider-repl-mode-hook 'ac-cider-setup)
+(eval-after-load "auto-complete"
+  '(progn
+     (add-to-list 'ac-modes 'cider-mode)
+     (add-to-list 'ac-modes 'cider-repl-mode)))
+
+;; Actually make autocomplete work
+(defun set-auto-complete-as-completion-at-point-function ()
+  (setq completion-at-point-functions '(auto-complete)))
+(add-hook 'auto-complete-mode-hook 'set-auto-complete-as-completion-at-point-function)
+(add-hook 'cider-mode-hook 'set-auto-complete-as-completion-at-point-function)
+
+;; Automatically start paredit in the editor and REPL
+(add-hook 'cider-repl-mode-hook #'paredit-mode)
+(add-hook 'clojure-mode-hook #'paredit-mode)
+
+;; Popping-up contextual documentation
+(eval-after-load "cider"
+  '(define-key cider-mode-map (kbd "C-c C-d") 'ac-cider-popup-doc))
+
 ;; The only theme that has ever made sense
 (load-theme 'monokai t)
 
@@ -114,7 +164,7 @@
 (define-key (current-global-map) (kbd "M-o") 'other-window)
 (define-key (current-global-map) (kbd "M-O") 'frame-bck)
 
-;; load the Org directory from Google Drive
+;; Load the Org directory from Google Drive
 ;; note: can use google-drive-ocamlfuse under Linux to
 ;; mount the Google Drive in your home directory
 
@@ -123,7 +173,7 @@
 ;; read more on: http://www.gnu.org/software/emacs/manual/html_node/emacs/Windows-HOME.html
 (setq org-agenda-files '("~/Google Drive/Org"))
 
-;; save backup and auto-save files to system's temp directory
+;; Save backup and auto-save files to system's temp directory
 (setq backup-directory-alist
       `((".*" . ,temporary-file-directory)))
 (setq auto-save-file-name-transforms
