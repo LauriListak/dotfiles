@@ -179,6 +179,11 @@
 (define-key (current-global-map) (kbd "M-o") 'other-window)
 (define-key (current-global-map) (kbd "M-O") 'frame-bck)
 
+(global-set-key (kbd "C-c t")
+		'(lambda ()
+		   (interactive)
+		   (ansi-term "/usr/bin/fish")))
+
 ;; Load the Org directory from Google Drive
 ;; note: can use google-drive-ocamlfuse under Linux to
 ;; mount the Google Drive in your home directory
