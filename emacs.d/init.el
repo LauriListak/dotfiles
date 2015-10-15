@@ -63,6 +63,12 @@
 
     ;; The only text editor theme ever worth using
     monokai-theme
+
+    ;; LaTeX editor for Emacs
+    auctex
+
+    ;; Preview pane for previewing the document
+    latex-preview-pane
     ))
 
 ;; Install the packages when they aren't installed
@@ -118,6 +124,15 @@
   '(progn
      (add-to-list 'ac-modes 'cider-mode)
      (add-to-list 'ac-modes 'cider-repl-mode)))
+
+;; AucTeX configuration
+(setq TeX-auto-save t)
+(setq TeX-parse-self t)
+(setq TeX-save-query nil)
+;; Create PDF as default
+(setq TeX-PDF-mode t)
+;; Automatically open the preview pane when editing LaTeX documents
+(latex-preview-pane-enable)
 
 ;; Actually make autocomplete work
 (defun set-auto-complete-as-completion-at-point-function ()
