@@ -115,3 +115,7 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+
+[ -s "/home/lauri/.dnx/dnvm/dnvm.sh" ] && . "/home/lauri/.dnx/dnvm/dnvm.sh" # Load dnvm
+
+PATH="$HOME/Programs/bin:$PATH"
