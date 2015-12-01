@@ -69,6 +69,9 @@
 
     ;; Preview pane for previewing the document
     latex-preview-pane
+
+    ;; Org-mode plugin for reveal.js presentations
+    ox-reveal
     ))
 
 ;; Install the packages when they aren't installed
@@ -133,6 +136,10 @@
 (setq TeX-PDF-mode t)
 ;; Automatically open the preview pane when editing LaTeX documents
 (latex-preview-pane-enable)
+
+;; Set up reveal.js expot from org-mode
+(require 'ox-reveal)
+(setq org-reveal-root "file:///home/lauri/Programs/reveal.js")
 
 ;; Actually make autocomplete work
 (defun set-auto-complete-as-completion-at-point-function ()
