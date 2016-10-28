@@ -1,0 +1,7 @@
+URxvt*scrollTtyOutput: false
+
+URxvt*scrollWithBuffer: true
+
+URxvt*scrollTtyKeypress: true
+
+URxvt.font:	xft:Source Code Pro:size=10
