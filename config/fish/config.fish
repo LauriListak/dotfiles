@@ -23,3 +23,10 @@ end
 function fish_title
 	 true
 end
+
+# Start X at login
+if status --is-login
+	if test -z "$DISPLAY" -a "$XDG_VTNR" -eq "1"
+		exec startx
+	end
+end
