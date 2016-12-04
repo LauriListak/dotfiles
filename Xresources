@@ -4,7 +4,7 @@ URxvt*scrollWithBuffer: true
 
 URxvt*scrollTtyKeypress: true
 
-URxvt.font:	xft:Source Code Pro:semibold:pixelsize=14
+URxvt.font:	xft:Source Code Pro-10:hinting=True;antialias=True
 
 URxvt.depth:        32
 
