@@ -3,6 +3,8 @@
 ;;(add-to-list 'package-archives
 ;;	     '("marmalade" . "https://marmalade-repo.org/packages/") t)
 (add-to-list 'package-archives
+	     '("gnu" . "https://elpa.gnu.org/packages/") t)
+(add-to-list 'package-archives
 	     '("tromey" . "http://tromey.com/elpa/") t)
 (add-to-list 'package-archives
 	     '("marmalade" . "http://melpa.milkbox.net/packages/") t)
@@ -22,29 +24,11 @@
   '(;; Awesome for handling S-expressions
     paredit
 
-    ;; Syntax highlighting and hotkeys for Clojure
-    clojure-mode
-
-    ;; Add some more font locking (unreliable?)
-    clojure-mode-extra-font-locking
-
-    ;; Clojure REPL integration
-    cider
-
-    ;; Auto-complete plugin for CIDER
-    ac-cider
-
     ;; Autocompletion
     auto-complete
 
     ;; Popups for autocompletion
     popup
-
-    ;; Integration with GNU R
-    ess
-
-    ;; Make it possible to use ido wherever it can be used
-    ido-ubiquitous
 
     ;; Make M-x easier to use for command execution
     smex
@@ -63,12 +47,6 @@
 
     ;; The only text editor theme ever worth using
     monokai-theme
-
-    ;; LaTeX editor for Emacs
-    auctex
-
-    ;; Preview pane for previewing the document
-    latex-preview-pane
 
     ;; Org-mode plugin for reveal.js presentations
     ox-reveal
@@ -118,25 +96,6 @@
 (setq ac-quick-help-delay 0.5)
 (ac-config-default)
 
-;; Setup autocomplete to work both in the editor and REPL
-(require 'ac-cider)
-(add-hook 'cider-mode-hook 'ac-flyspell-workaround)
-(add-hook 'cider-mode-hook 'ac-cider-setup)
-(add-hook 'cider-repl-mode-hook 'ac-cider-setup)
-(eval-after-load "auto-complete"
-  '(progn
-     (add-to-list 'ac-modes 'cider-mode)
-     (add-to-list 'ac-modes 'cider-repl-mode)))
-
-;; AucTeX configuration
-(setq TeX-auto-save t)
-(setq TeX-parse-self t)
-(setq TeX-save-query nil)
-;; Create PDF as default
-(setq TeX-PDF-mode t)
-;; Automatically open the preview pane when editing LaTeX documents
-(latex-preview-pane-enable)
-
 ;; Set up reveal.js expot from org-mode
 (require 'ox-reveal)
 (setq org-reveal-root "file:///home/lauri/Programs/reveal.js")
@@ -144,16 +103,8 @@
 ;; Actually make autocomplete work
 (defun set-auto-complete-as-completion-at-point-function ()
   (setq completion-at-point-functions '(auto-complete)))
-(add-hook 'auto-complete-mode-hook 'set-auto-complete-as-completion-at-point-function)
-(add-hook 'cider-mode-hook 'set-auto-complete-as-completion-at-point-function)
-
-;; Automatically start paredit in the editor and REPL
-(add-hook 'cider-repl-mode-hook #'paredit-mode)
-(add-hook 'clojure-mode-hook #'paredit-mode)
-
-;; Popping-up contextual documentation
-(eval-after-load "cider"
-  '(define-key cider-mode-map (kbd "C-c C-d") 'ac-cider-popup-doc))
+;;(add-hook 'auto-complete-mode-hook 'set-auto-complete-as-completion-at-point-function)
+;;(add-hook 'cider-mode-hook 'set-auto-complete-as-completion-at-point-function)
 
 ;; The only theme that has ever made sense
 (load-theme 'monokai t)
@@ -233,17 +184,3 @@
 
 ;; Do not disable upcase-region command
 (put 'upcase-region 'disabled nil)
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (haskell-mode ox-reveal latex-preview-pane auctex monokai-theme magit tagedit rainbow-delimiters projectile smex ido-ubiquitous ess ac-cider cider clojure-mode-extra-font-locking clojure-mode paredit))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
